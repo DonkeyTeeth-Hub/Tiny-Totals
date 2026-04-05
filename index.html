@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#175cd3" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="NICU Calculator" />
+  <title>NICU Nutrition / Fluid Calculator</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div>
+        <h1>NICU Nutrition / Fluid Calculator</h1>
+      </div>
+      <div class="topbar-actions">
+        <button id="resetBtn" class="button button-secondary" type="button">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap app-grid">
+    <section class="panel">
+      <h2>Patient</h2>
+      <div class="grid two">
+        <label class="field">
+          <span class="field-label">Weight (kg)</span>
+          <input id="weight_kg" type="number" min="0" step="0.01" inputmode="decimal" />
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Enteral</h2>
+      <div class="grid three">
+        <label class="field">
+          <span class="field-label">kcal/oz</span>
+          <input id="enteral_kcal_oz" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">mL/Feed</span>
+          <input id="volume_per_feed_ml" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Feeds/Day</span>
+          <input id="feeds_per_day" type="number" min="0" step="1" inputmode="numeric" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Total Enteral Volume</span>
+          <input id="total_enteral_volume_ml_day" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Total PO Volume</span>
+          <input id="po_total_volume_ml_day" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>IV Fluids</h2>
+      <div class="grid three">
+        <label class="field">
+          <span class="field-label">Dex % 1</span>
+          <input id="dex1_percent" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Dex 1 mL</span>
+          <input id="dex1_vol_ml_day" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <div class="field spacer"></div>
+
+        <label class="field">
+          <span class="field-label">Dex % 2</span>
+          <input id="dex2_percent" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Dex 2 mL</span>
+          <input id="dex2_vol_ml_day" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <div class="field spacer"></div>
+
+        <label class="field">
+          <span class="field-label">Non-Dex IV 1</span>
+          <input id="nondex1_total_ml_day" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Non-Dex IV 2</span>
+          <input id="nondex2_total_ml_day" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Lipids (g/kg/day)</span>
+          <input id="lipids_g_kg_day" type="number" min="0" step="0.1" inputmode="decimal" />
+        </label>
+      </div>
+    </section>
+
+    <section class="panel action-panel">
+      <div id="statusBadge" class="badge">Awaiting input</div>
+    </section>
+
+    <section class="panel results-panel">
+      <h2>Calculated Outputs</h2>
+
+      <div class="group">
+        <h3>Top-line</h3>
+        <div class="result-grid">
+          <div class="result-card">
+            <div class="result-label">Total mL/kg/day</div>
+            <div class="result-value" id="out_total_ml_kg_day">—</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">Total kcal/kg/day</div>
+            <div class="result-value" id="out_total_kcal_kg_day">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <h3>Enteral</h3>
+        <div class="result-row"><span>kcal/mL</span><strong id="out_kcal_ml">—</strong></div>
+        <div class="result-row"><span>Total mL/day</span><strong id="out_total_ml_day">—</strong></div>
+        <div class="result-row"><span>mL/kg/day</span><strong id="out_enteral_ml_kg_day">—</strong></div>
+        <div class="result-row"><span>Enteral kcal/kg/day</span><strong id="out_enteral_kcal_kg_day">—</strong></div>
+        <div class="result-row"><span>Total PO Volume</span><strong id="out_total_po_volume">—</strong></div>
+        <div class="result-row"><span>Total PO %</span><strong id="out_total_po_percent">—</strong></div>
+      </div>
+
+      <div class="group">
+        <h3>IV</h3>
+        <div class="result-row"><span>20% IL mL/kg/day</span><strong id="out_il_ml_kg_day">—</strong></div>
+        <div class="result-row"><span>Dex Total kcal</span><strong id="out_dex_total_kcal">—</strong></div>
+        <div class="result-row"><span>IV mL/kg/day</span><strong id="out_iv_total_ml_kg_day">—</strong></div>
+        <div class="result-row"><span>IV kcal/kg/day</span><strong id="out_iv_total_kcal_kg_day">—</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js");
+      });
+    }
+  </script>
+</body>
+</html>
