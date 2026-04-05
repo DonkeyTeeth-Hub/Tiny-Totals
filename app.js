@@ -32,6 +32,12 @@ function formatNumber(value, digits = 1) {
   return Number(value).toFixed(digits);
 }
 
+function formatWithSuffix(value, digits = 1, suffix = "") {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "—";
+  const formatted = Number(value).toFixed(digits);
+  return suffix ? `${formatted} ${suffix}` : formatted;
+}
+
 function setOutput(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
@@ -58,6 +64,8 @@ function syncEnteralMode(changedId = "") {
 
   const updatedPairHasValue = raw("volume_per_feed_ml") !== "" || raw("feeds_per_day") !== "";
   const updatedTotalHasValue = raw("total_enteral_volume_ml_day") !== "";
+
+  totalEnter_day") !== "";
 
   totalEnteralVolume.disabled = updatedPairHasValue;
   volumePerFeed.disabled = updatedTotalHasValue;
@@ -171,10 +179,9 @@ function render(model) {
   setOutput("out_total_kcal_kg_day", formatNumber(model.totalKcalKgDay, 1));
 
   setOutput("out_kcal_ml", formatNumber(model.kcalPerMl, 3));
-  setOutput("out_total_ml_day", formatNumber(model.totalEnteralVolume, 1));
+  setOutput("out_total_ml_day", formatWithSuffix(model.totalEnteralVolume, 1, "mL"));
   setOutput("out_enteral_ml_kg_day", formatNumber(model.enteralMlKgDay, 1));
   setOutput("out_enteral_kcal_kg_day", formatNumber(model.enteralKcalKgDay, 1));
-  setOutput("out_total_po_volume", formatNumber(model.totalPoVolume, 1));
   setOutput("out_total_po_percent", formatNumber(model.totalPoPercent, 1));
 
   setOutput("out_il_ml_kg_day", formatNumber(model.ilMlKgDay, 1));
@@ -213,7 +220,6 @@ function resetForm() {
     "out_total_ml_day",
     "out_enteral_ml_kg_day",
     "out_enteral_kcal_kg_day",
-    "out_total_po_volume",
     "out_total_po_percent",
     "out_il_ml_kg_day",
     "out_dex_total_kcal",
