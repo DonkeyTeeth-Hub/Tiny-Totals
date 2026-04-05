@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tiny-totals-pwa-v2026-04-05-6';
+const CACHE_NAME = 'tiny-totals-pwa-v2026-04-05-10';
 const ASSETS = [
   './',
   './index.html',

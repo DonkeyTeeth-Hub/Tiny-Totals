@@ -65,8 +65,6 @@ function syncEnteralMode(changedId = "") {
   const updatedPairHasValue = raw("volume_per_feed_ml") !== "" || raw("feeds_per_day") !== "";
   const updatedTotalHasValue = raw("total_enteral_volume_ml_day") !== "";
 
-  totalEnter_day") !== "";
-
   totalEnteralVolume.disabled = updatedPairHasValue;
   volumePerFeed.disabled = updatedTotalHasValue;
   feedsPerDay.disabled = updatedTotalHasValue;
@@ -160,11 +158,10 @@ function spreadsheetModel() {
   return {
     weightKg,
     totalEnteralVolume,
+    totalPoPercent,
     kcalPerMl,
     enteralMlKgDay,
     enteralKcalKgDay,
-    totalPoVolume,
-    totalPoPercent,
     ilMlKgDay,
     dexTotalKcal,
     ivMlKgDay,
